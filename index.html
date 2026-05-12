@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>frankiesarti.com</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --hot-pink: #F0097D;
+      --black: #0a0a0a;
+      --white: #fafafa;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--hot-pink);
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-stretch: condensed;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+    }
+
+    /* ── header row (title + volume) ── */
+    .header-row {
+      position: absolute;
+      top: 5vw;
+      left: 4vw;
+      display: flex;
+      align-items: stretch;
+      gap: 0.6em;
+      animation: slideInLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* ── title box ── */
+    .title-box {
+      background: var(--white);
+      border: 3px solid var(--black);
+      padding: 0.55em 1.1em;
+    }
+
+    .title-box h1 {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--black);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    /* ── volume button ── */
+    .volume-btn {
+      background: var(--white);
+      border: 3px solid var(--black);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
+      width: calc(clamp(2rem, 5vw, 4rem) + 1.1em * 2);
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .volume-btn:hover {
+      background: #eee;
+    }
+
+    .volume-btn svg {
+      width: 45%;
+      height: 45%;
+      display: block;
+    }
+
+    /* ── contact info ── */
+    .contact {
+      position: absolute;
+      top: calc(5vw + clamp(2rem, 5vw, 4rem) + 4.2em);
+      left: 4vw;
+      animation: slideInLeft 0.6s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .contact p {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.2vw, 1.6rem);
+      color: var(--white);
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+    }
+
+    .contact a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── portfolio button ── */
+    .portfolio-btn {
+      position: absolute;
+      bottom: 5vw;
+      right: 4vw;
+      background: var(--white);
+      border: 3px solid var(--black);
+      padding: 0.55em 1.4em;
+      text-decoration: none;
+      display: inline-block;
+      animation: slideInRight 0.6s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+      transition: background 0.15s, color 0.15s, transform 0.12s;
+    }
+
+    .portfolio-btn span {
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--black);
+      letter-spacing: -0.01em;
+      display: block;
+    }
+
+    .portfolio-btn:hover {
+      background: var(--black);
+    }
+
+    .portfolio-btn:active {
+      background: var(--black);
+    }
+
+    .portfolio-btn:hover span {
+      color: var(--white);
+    }
+
+    /* ── audio element ── */
+    audio { display: none; }
+
+    /* ── keyframes ── */
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes bounce {
+      from { transform: scaleY(0.4); }
+      to   { transform: scaleY(1);   }
+    }
+
+    /* ── mobile ── */
+    @media (max-width: 600px) {
+      body { overflow: auto; }
+      .header-row { top: 2rem; left: 1.25rem; right: 1.25rem; }
+      .title-box h1 { white-space: normal; }
+      .contact { top: auto; left: 1.25rem; margin-top: 2rem; position: relative; padding-top: calc(clamp(2rem,5vw,4rem) + 6rem); }
+      .portfolio-btn { bottom: 2rem; right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-row">
+    <div class="title-box">
+      <h1>frankiesarti.com</h1>
+    </div>
+    <button class="volume-btn" id="volumeBtn" onclick="toggleMusic()" title="mute / unmute">
+      <!-- speaker icon — JS swaps to muted version -->
+      <svg id="volIcon" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path id="wave1" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path id="wave2" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        <!-- muted X (hidden by default) -->
+        <line id="mutedX1" x1="23" y1="9" x2="17" y2="15" style="display:none"/>
+        <line id="mutedX2" x1="17" y1="9" x2="23" y2="15" style="display:none"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="contact">
+    <p>vancouver, bc</p>
+    <p><a href="mailto:frankie@frankiesarti.com">frankie@frankiesarti.com</a></p>
+  </div>
+
+  <!-- Link this to your portfolio page once it's ready -->
+  <a class="portfolio-btn" href="portfolio.html">
+    <span>portfolio</span>
+  </a>
+
+  <!-- Music: put your .mp3 in the same folder and update the src below -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const audio  = document.getElementById('bgMusic');
+    const wave1  = document.getElementById('wave1');
+    const wave2  = document.getElementById('wave2');
+    const mutedX1 = document.getElementById('mutedX1');
+    const mutedX2 = document.getElementById('mutedX2');
+    let playing = false;
+
+    function setMutedIcon(muted) {
+      wave1.style.display  = muted ? 'none'  : '';
+      wave2.style.display  = muted ? 'none'  : '';
+      mutedX1.style.display = muted ? ''     : 'none';
+      mutedX2.style.display = muted ? ''     : 'none';
+    }
+
+    function toggleMusic() {
+      if (playing) {
+        audio.pause();
+        setMutedIcon(true);
+      } else {
+        audio.play().catch(() => {});
+        setMutedIcon(false);
+      }
+      playing = !playing;
+    }
+
+    // Start muted icon state
+    setMutedIcon(true);
+
+    // Autoplay on first click anywhere
+    document.addEventListener('click', function tryAutoplay() {
+      if (!playing) {
+        audio.play().then(() => {
+          playing = true;
+          setMutedIcon(false);
+        }).catch(() => {});
+      }
+      document.removeEventListener('click', tryAutoplay);
+    }, { once: true });
+  </script>
+
+</body>
+</html>
