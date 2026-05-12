@@ -49,15 +49,17 @@
       border: 3px solid var(--black);
       padding: 0.45em 0.9em;
       transition: background 0.15s;
+      cursor: pointer;
     }
-    .title-box { cursor: pointer; }
-    .title-box:hover { background: #eee; }
+    .title-box:hover { background: var(--black); }
+    .title-box:hover h1 { color: var(--white); }
 
     .title-box h1 {
       font-weight: 900;
       font-size: clamp(1.5rem, 3.5vw, 3rem);
       color: var(--black);
       white-space: nowrap;
+      transition: color 0.15s;
     }
 
     .volume-btn {
